@@ -10,23 +10,32 @@ function Date() {
   const [noBtnStyle, setNoBtnStyle] = useState({});
   
   const [typedText, setTypedText] = useState('');
-  const fullText = "MMe quedé pensando en lo de nuestra primera cita...";
+  const fullText = "Me quedé pensando en lo de nuestra primera cita...";
 
   useEffect(() => {
-    let index = 0;
-    setTypedText(''); 
-    
-    const interval = setInterval(() => {
-      if (index < fullText.length) {
-        setTypedText((prev) => prev + fullText.charAt(index));
-        index++;
-      } else {
-        clearInterval(interval);
-      }
-    }, 120); 
+  let index = 0;
+  let timeoutId;
 
-    return () => clearInterval(interval);
-  }, []);
+  const type = () => {
+    if (index < fullText.length) {
+      // Va tomando rebanadas del texto original usando el índice actual
+      setTypedText(fullText.slice(0, index + 1));
+      index++;
+      timeoutId = setTimeout(type, 120); // Velocidad de escritura
+    } else {
+      timeoutId = setTimeout(() => {
+        setTypedText('');
+        index = 0;
+        type(); 
+      }, 1950); 
+    }
+  };
+
+  type(); // Inicia el efecto por primera vez
+
+  // Limpieza súper importante para evitar fugas de memoria al desmontar
+  return () => clearTimeout(timeoutId);
+}, []);
 
   const handleNoInteraction = () => {
     const randomX = Math.floor(Math.random() * 70) + 10;
@@ -85,7 +94,7 @@ function Date() {
         </h1>
 
         <div className="bg-neutral-900/50 border border-neutral-800/80 backdrop-blur-sm rounded-2xl p-6 md:p-8 max-w-xl mx-auto shadow-2xl">
-          <p className="text-neutral-400 text-base md:text-lg leading-relaxed">
+          <p className="text-neutral-300 text-base md:text-lg leading-relaxed">
             Es injusto que no hayamos tenido una, no me parece bien :(
             <span className="block mt-4 text-neutral-300">
               Es por eso que, aprovechando el momento en el que estamos, me gustaría corregirlo.
