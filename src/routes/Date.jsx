@@ -100,7 +100,7 @@ function Date() {
         <div className="relative flex items-center justify-center gap-6 mt-8 h-20">
           
           <button
-            onClick={() => navigate('/contact')}
+            onClick={() => navigate('/yes')}
             className="px-8 py-3 rounded-full bg-white text-black font-semibold shadow-lg hover:bg-neutral-200 transform hover:scale-105 transition-all duration-200 active:scale-95"
           >
             Sí
