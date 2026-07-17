@@ -8,6 +8,7 @@ import birrasImg from '../assets/birras.jpg';
 function Date() {
   const navigate = useNavigate();
   const [noBtnStyle, setNoBtnStyle] = useState({});
+  const [noBtnScale, setNoBtnScale] = useState(1);
   
   const [typedText, setTypedText] = useState('');
   const fullText = "Me quedé pensando en lo de nuestra primera cita...";
@@ -31,22 +32,28 @@ function Date() {
     }
   };
 
-  type(); // Inicia el efecto por primera vez
+  type(); 
 
-  // Limpieza súper importante para evitar fugas de memoria al desmontar
   return () => clearTimeout(timeoutId);
 }, []);
 
   const handleNoInteraction = () => {
+
     const randomX = Math.floor(Math.random() * 70) + 10;
     const randomY = Math.floor(Math.random() * 70) + 10;
+
+    setNoBtnScale((prevScale) => {
+    const nextScale = prevScale * 0.80;
+    
+    return nextScale < 0.15 ? 0.15 : nextScale;
+  });
 
     setNoBtnStyle({
       position: 'fixed',
       left: `${randomX}vw`,
       top: `${randomY}vh`,
       zIndex: 50,
-      transition: 'all 0.15s ease-out',
+      transition: 'all 0.20s ease-out',
     });
   };
 
@@ -118,7 +125,12 @@ function Date() {
           <button
             onMouseEnter={handleNoInteraction}
             onTouchStart={handleNoInteraction}
-            style={noBtnStyle}
+            onClick={handleNoInteraction}
+            style={{
+              ...noBtnStyle,
+              transform: `scale(${noBtnScale})`,
+              transition: 'all 0.15s ease-out', 
+            }}
             className="px-8 py-3 rounded-full bg-neutral-900 border border-neutral-800 text-neutral-400 font-semibold shadow-md hover:text-white transition-all duration-200 active:scale-95"
           >
             No
