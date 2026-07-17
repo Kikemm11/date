@@ -7,7 +7,7 @@ export default function App() {
     <Router basename="/date"> {/* Use the base path here */}
       <Routes>
         <Route path="/" element={<Date />} />
-        <Route path="/contact" element={<Yes />} />
+        <Route path="/yes" element={<Yes />} />
       </Routes>
     </Router>
   );
